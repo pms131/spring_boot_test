@@ -10,8 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
-@WebMvcTest(HomeController.class)
+@WebMvcTest
 class TacoCloudApplicationTests {
 	
 	@Autowired
@@ -25,5 +26,12 @@ class TacoCloudApplicationTests {
 			   .andExpect(content().string(containsString("Welcome to...")));
 		
 	}
+	
+	/*
+	 * 여기에 넣는 것도 가능 (@WebMvcConfigurer 추가시) 
+	 @Override 
+	 public void addViewControllers(ViewControllerRegistry registry) {
+	 registry.addViewController("/").setViewName("home"); }
+	 */
 
 }
