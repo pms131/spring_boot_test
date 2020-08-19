@@ -4,6 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 import tacos.Ingredient.Type;
 import tacos.data.IngredientRepository;
@@ -16,6 +17,8 @@ public class TacoCloudApplication {
 	}
 	
 	@Bean
+	//@Profile({"dev", "qa"})		// dev, qa 환경에서만 실행
+	@Profile("!prod")				// prod 환경이 아닌 곳에서만 실행
 	public CommandLineRunner dataLoader(IngredientRepository repo) {
 		
 		return new CommandLineRunner() {
