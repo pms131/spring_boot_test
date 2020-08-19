@@ -17,7 +17,7 @@ import tacos.data.OrderRepository;
 
 @Slf4j
 @Controller
-@RequestMapping("/order")
+@RequestMapping("/orders")
 @SessionAttributes("order")
 public class OrderController {
 
