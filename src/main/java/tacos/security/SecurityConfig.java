@@ -1,5 +1,8 @@
-package taco.security;
+package tacos.security;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,6 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
+	@Autowired
+	DataSource dataSource;
+	
 	/* HTTP 보안을 구성하는 메소드 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -23,8 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		 ;
 	} 
 	
-	/* 사용자 인증 정보를 구성하는 메소드 */
-	@Override
+	/* 인메모리 기반 사용자 인증 정보를 구성하는 메소드 */
+	/*@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication()
 				.withUser("user1")
@@ -35,5 +41,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.password("{noop}password2")
 				.authorities("ROLE_USER")
 				;
+	}*/
+	
+	/* Jdbc 기반 사용자 인증 정보를 구성하는 메소드 */
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth
+			.jdbcAuthentication()
+			.dataSource(dataSource);
 	}
 }
