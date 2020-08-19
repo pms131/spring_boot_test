@@ -68,7 +68,7 @@ public class DesignTacoController {
 		*/
 		
 		List<Ingredient> ingredients = new ArrayList<Ingredient>();
-		ingredients.findAll().forEach(i -> ingredients.add(i));
+		//ingredients.findAll().forEach(i -> ingredients.add(i))
 		
 		Type[] types = Ingredient.Type.values();
 		for(Type type : types) {

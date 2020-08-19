@@ -23,7 +23,7 @@ public class OrderController {
 
 	private OrderRepository orderRepo;
 	
-	public public OrderController(OrderRepository orderRepo) {
+	public OrderController(OrderRepository orderRepo) {
 		this.orderRepo = orderRepo;
 	}
 	
