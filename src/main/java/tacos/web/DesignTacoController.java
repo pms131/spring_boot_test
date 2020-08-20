@@ -8,6 +8,13 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.ControllerLinkBuilder;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -26,6 +33,8 @@ import tacos.User;
 import tacos.data.IngredientRepository;
 import tacos.data.TacoRepository;
 import tacos.data.UserRepository;
+import tacos.web.api.TacoResource;
+import tacos.web.api.TacoResourceAssembler;
 
 @Slf4j
 @Controller
@@ -103,6 +112,43 @@ public class DesignTacoController {
 		
 		
 		return "redirect:/orders/current"; 
+	}
+	
+	/*
+	@GetMapping("/recent")
+	public CollectionModel<EntityModel<Taco>> recentTacos() {
+		PageRequest page = PageRequest.of(0, 12, Sort.by("createdAt").descending());
+		
+		List<Taco> tacos = tacoRepo.findAll(page).getContent();
+		
+		CollectionModel<EntityModel<Taco>> recentResources = CollectionModel.wrap(tacos);
+		
+		
+		recentResources.add(
+				WebMvcLinkBuilder.linkTo(DesignTacoController.class)
+									 .slash("recent")
+									 .withRel("recents")
+				);
+		
+		//recentResources.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(DesignTacoController.class, recentTacos())).withRel("recents")); 위와 같은 의미
+		
+		
+		
+		return recentResources;
+		
+	}
+	*/
+	
+	@GetMapping("/recent")
+	public CollectionModel<TacoResource> recentTacos() {
+		PageRequest page = PageRequest.of(0, 12, Sort.by("createdAt").descending());
+		
+		List<Taco> tacos = tacoRepo.findAll(page).getContent();
+		
+		CollectionModel<TacoResource> tacoCollectionModel = new TacoResourceAssembler().toCollectionModel(tacos);
+		
+		return tacoCollectionModel;
+		
 	}
 	
 	private List<Ingredient> filterByType(List<Ingredient> ingredients, Type type) {
